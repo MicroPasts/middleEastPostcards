@@ -1,0 +1,415 @@
+<!-- Add scripts etc -->
+<script src="/static/js/vendor/jquery.serializeJSON.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js" type="text/javascript"></script>
+<script src="/static/vendor/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+<!-- Add style sheets -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.2.1/ol.css" type="text/css">
+<link rel="stylesheet" href="/static/vendor/fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
+
+<!-- Browser not compatible message -->
+<div style="display:none;margin-top:15px; height:500px;" id="oldbrowser" class="row">
+    <!-- Success and Error Messages for the user -->
+    <div class="col-md-8 col-md-offset-1 alert alert-info">
+        <strong>Sorry, but your browser does not support the current application. If you want to contribute, please,
+            upgrade to a modern web browser like the open source and free alternative <a
+                    href="http://www.mozilla.org/en-US/firefox/new/">Firefox</a> or <a
+                    href="https://www.google.com/intl/en/chrome/browser/">Chrome</a></strong>.
+    </div>
+</div>
+<!-- End of Row -->
+<!-- end of browser -->
+
+<!-- Start of messages -->
+<div style="margin-top:15px;">
+    <div id="success" class="alert alert-success" style="display:none;">
+        <strong>Well done!</strong> You have successfully submitted your contribution. Here is another to try if you
+        wish!
+    </div>
+    <div id="loading" class="alert alert-info" style="display:none;">
+        <img src="/static/img/loading.gif">Loading next task...
+    </div>
+    <div id="taskcompleted" class="alert alert-info" style="display:none;">
+        <strong>The task has been completed!</strong> Thanks a lot!
+    </div>
+    <div id="finish" class="alert alert-success" style="display:none;">
+        <h2>Congratulations!</h2>
+        <p>
+            You have participated in all available tasks!
+        </p>
+        <div class="alert-actions">
+            <a class="btn-default btn" href="/">Go back to the home page</a>
+            <a class="btn-default btn" href="/app">or, have a look at our
+                other applications</a>
+        </div>
+    </div>
+    <div id="error" class="alert alert-danger" style="display:none;">
+        <a class="close">×</a>
+        <strong>Error!</strong> Something went wrong, please contact the site administrators
+    </div>
+</div>
+<!-- End Success and Error Messages for the user -->
+
+<!--
+Task DOM for loading the S3 Images
+It uses the class="skeleton" to identify the elements that belong to the
+task.
+-->
+
+<div class="row skeleton" id="">
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="btn-group">
+                <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
+                    <i class="glyphicon glyphicon-eye-open"></i> Tutorial
+                </button>
+                <a class="btn btn-info btn-xs" id="imgLink" target="_blank" data-toggle="tooltip" data-placement="top"
+                   title="Opens in a new window" href="http://community.micropasts.org/"><i
+                        class="glyphicon glyphicon-book"></i> Community Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- The pdf section -->
+    <div class="col-md-12">
+        <div class="row">
+            <h4>Please help us to transcribe this postcard.</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <form id="magicData" role="form">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label class="control-label" for="message">The date</label>
+                        <input type="text" class="form-control" name="date" id="date"></input>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="message">The message</label>
+                        <textarea rows="4" class="form-control" name="message" id="message"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label" for="message">Possible language of message</label>
+                        <select data-placeholder="Choose a Language..." class="chzn-select" style="width:350px;"
+                                tabindex="4">
+                            <option value="Afrikanns">Afrikanns</option>
+                            <option value="Albanian">Albanian</option>
+                            <option value="Arabic">Arabic</option>
+                            <option value="Armenian">Armenian</option>
+                            <option value="Basque">Basque</option>
+                            <option value="Bengali">Bengali</option>
+                            <option value="Bulgarian">Bulgarian</option>
+                            <option value="Catalan">Catalan</option>
+                            <option value="Cambodian">Cambodian</option>
+                            <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+                            <option value="Croation">Croation</option>
+                            <option value="Czech">Czech</option>
+                            <option value="Danish">Danish</option>
+                            <option value="Dutch">Dutch</option>
+                            <option value="English">English</option>
+                            <option value="Estonian">Estonian</option>
+                            <option value="Fiji">Fiji</option>
+                            <option value="Finnish">Finnish</option>
+                            <option value="French">French</option>
+                            <option value="Georgian">Georgian</option>
+                            <option value="German">German</option>
+                            <option value="Greek">Greek</option>
+                            <option value="Gujarati">Gujarati</option>
+                            <option value="Hebrew">Hebrew</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Hungarian">Hungarian</option>
+                            <option value="Icelandic">Icelandic</option>
+                            <option value="Indonesian">Indonesian</option>
+                            <option value="Irish">Irish</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Javanese">Javanese</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Latin">Latin</option>
+                            <option value="Latvian">Latvian</option>
+                            <option value="Lithuanian">Lithuanian</option>
+                            <option value="Macedonian">Macedonian</option>
+                            <option value="Malay">Malay</option>
+                            <option value="Malayalam">Malayalam</option>
+                            <option value="Maltese">Maltese</option>
+                            <option value="Maori">Maori</option>
+                            <option value="Marathi">Marathi</option>
+                            <option value="Mongolian">Mongolian</option>
+                            <option value="Nepali">Nepali</option>
+                            <option value="Norwegian">Norwegian</option>
+                            <option value="Persian">Persian</option>
+                            <option value="Polish">Polish</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Punjabi">Punjabi</option>
+                            <option value="Quechua">Quechua</option>
+                            <option value="Romanian">Romanian</option>
+                            <option value="Russian">Russian</option>
+                            <option value="Samoan">Samoan</option>
+                            <option value="Serbian">Serbian</option>
+                            <option value="Slovak">Slovak</option>
+                            <option value="Slovenian">Slovenian</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Swahili">Swahili</option>
+                            <option value="Swedish ">Swedish</option>
+                            <option value="Tamil">Tamil</option>
+                            <option value="Tatar">Tatar</option>
+                            <option value="Telugu">Telugu</option>
+                            <option value="Thai">Thai</option>
+                            <option value="Tibetan">Tibetan</option>
+                            <option value="Tonga">Tonga</option>
+                            <option value="Turkish">Turkish</option>
+                            <option value="Ukranian">Ukranian</option>
+                            <option value="Urdu">Urdu</option>
+                            <option value="Uzbek">Uzbek</option>
+                            <option value="Vietnamese">Vietnamese</option>
+                            <option value="Welsh">Welsh</option>
+                            <option value="Xhosa">Xhosa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="message">Translation? (Only if you can)</label>
+                        <textarea rows="4" class="form-control" name="translation" id="translation"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="address">Address</label>
+                        <textarea rows="2" class="form-control" name="address" id="address"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="comments">Transcriber's Comments</label>
+                        <textarea class="form-control" rows="5" id="comments" name="comments"
+                                  placeholder="Add any comments you have"></textarea>
+                    </div>
+
+                    <button class="btn btn-success btn-answer" value='Yes'>
+                        Submit your transcription
+                    </button>
+                </div>
+            </form>
+
+            <div id="imgContainer" class="col-md-6">
+             <span id="postcardImage">
+                <img id="photo" src="/static/img/loading.gif" class="loadingIcon" style="max-width:100%;">
+             </span>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- End of pdf section -->
+    <!-- The data entry section using html table -->
+    <div class="row">
+
+        <!-- Feedback items for the user -->
+        <p>
+            You are working now on task: <span id="task-id" class="label label-warning">#</span>
+        </p>
+        <p>
+            You have completed: <span id="done" class="label label-info"></span> tasks from
+            <!-- Progress bar for the user -->
+            <span id="total" class="label label-inverse"></span>
+        </p>
+        <div class="progress progress-striped">
+            <div id="progress" rel="tooltip" title="#" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+        </div>
+        <!-- End of feedback row -->
+    </div>
+    <!-- End of the section -->
+</div>
+<!-- End of DOM Skeleton row -->
+
+<!-- Modal start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h3>How to transcribe the postcards</h3>
+            </div>
+
+            <!-- Step 1 of the tutorial -->
+            <div id="0" class="modal-body" style="display:none">
+                <p>
+                    Transcription of these postcards is relatively easy!
+                </p>
+                <p>
+                    All we want you to do, is to enter details of the correspondance, transcribe the text as best you
+                    can (bearing in mind the variable hand writing)
+                    and if at all possible translate the contents.
+                </p>
+
+            </div>
+
+            <!-- Step 2 of the tutorial -->
+            <div id="1" class="modal-body" style="display:none">
+                <p>
+                    The fields we would like you to transcribe are:
+                </p>
+                <ul>
+                    <li>Date of card (if present)</li>
+                    <li>The message</li>
+                    <li> A translation if available</li>
+                    <li>The possible/probable/definite language</li>
+                    <li>The address to which it was sent</li>
+                    <li>Any comments you might have</li>
+                </ul>
+
+                <p>Dont worry if you cannot get everything. Each card will be worked on by several people.</p>
+            </div>
+
+            <!-- End of stepped modal body -->
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a id="prevBtn" href="#" onclick="showStep('prev')" class="btn btn-default">Previous</a>
+                <a id="nextBtn" href="#" onclick="showStep('next')" class="btn btn-success">Next</a>
+                <button id="closeBtn" data-dismiss="modal" onclick="showStep('finish')" class="btn btn-primary"
+                        style="display:none"><i class="glyphicon glyphicon-thumbs-up"></i> Back to task
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Client side scripts -->
+<script>
+	// Quick fix for IE8
+	Modernizr.load({
+		test : window.JSON,
+		nope : '/static/js/vendor/json2.min.js'
+	});
+
+
+
+</script>
+
+<!-- Step through modals -->
+<script type="text/javascript">
+	var step = -1;
+	function showStep(action) {
+		$("#" + step).hide();
+		if (action == 'next') {
+			step = step + 1;
+		}
+		if (action == 'prev') {
+			step = step - 1;
+		}
+		if (step == 0) {
+			$("#prevBtn").hide();
+		} else {
+			$("#prevBtn").show();
+		}
+
+		// this line below needs to match the id of the last modal div. If you have 4 divs, you need to
+		// change this to step = 3 and if you have 2 you would say step = 1. Id starts at 0.
+
+		if (step == 1) {
+			$("#nextBtn").hide();
+			$("#closeBtn").show();
+		}
+		if (action == 'finish') {
+			step = 0;
+			$("#closeBtn").hide();
+			$("#prevBtn").hide();
+			$("#nextBtn").show();
+		}
+		$("#" + step).show();
+	}
+	showStep('next');
+	$("#modal").modal('show');
+
+
+
+</script>
+
+<!-- Load user progress -->
+<script>
+
+    // This part of the script loads the user's progress through the project
+
+	function loadUserProgress() {
+		pybossa.userProgress('middleEastPostcards').done(function(data) {
+			console.log(data);
+			console.log("Total answers done for user: " + data.done);
+			var pct = Math.round((data.done * 100) / data.total);
+			$("#progress").css("width", pct.toString() + "%");
+			$("#progress").attr("title", pct.toString() + "% completed!");
+			$("#progress").tooltip({ 'placement' : 'left' });
+			$("#total").text(data.total);
+			$("#done").text(data.done);
+			$('a[rel]').tooltip({'placement' : 'left'});
+		});
+	}
+
+    //This part loads the script
+
+	pybossa.taskLoaded(function(task, deferred) {
+		if (! $.isEmptyObject(task)) {
+			loadUserProgress();
+			deferred.resolve(task);
+		} else {
+			deferred.resolve(task);
+		}
+	});
+
+	// This part presents the task and then saves the answers
+
+	pybossa.presentTask(function(task, deferred) {
+		if (!$.isEmptyObject(task)) {
+		    console.log(task)
+			$("#question").html(task.info.question);
+			$('#task-id').html(task.id);
+			$("#photo").attr('src', task.info.url_b);
+			var data = [[]];
+			$('.btn-answer').off('click').on('click', function(evt) {
+				evt.preventDefault();
+				var answer = $(evt.target).attr("value");
+				if ( typeof answer != 'undefined') {
+					task.answer = $("#magicData").serializeJSON();
+					console.log(task.answer);
+					pybossa.saveTask(task.id, task.answer).done(function() {
+						$("html, body").animate( {scrollTop : 0 }, "slow");
+						$("#success").fadeIn(500).fadeOut(500);
+						$("#loading").fadeIn(500).fadeOut(500);
+						$('#magicData')[0].reset();
+						deferred.resolve();
+					});
+				} else {
+					$("#error").show();
+				}
+			});
+			$("#loading").hide();
+		} else {
+			$(".skeleton").hide();
+			$("#loading").hide();
+			$("#finish").fadeIn(500);
+		}
+	});
+	pybossa.run('middleEastPostcards');
+
+
+
+</script>
+
+<style type="text/css">
+    .btn-answer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    }
+    .btn-group {
+    margin-bottom: 0px
+    }
+
+
+
+
+</style>

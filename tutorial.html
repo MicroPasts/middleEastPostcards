@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-md-12">
+        <div id="modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal header -->
+                    <div class="modal-header">
+                <h3>How to transcribe the postcards</h3>
+            </div>
+
+            <!-- Step 1 of the tutorial -->
+            <div id="0" class="modal-body" style="display:none">
+                <p>
+                    Transcription of these postcards is relatively easy!
+                </p>
+                <p>
+                    All we want you to do, is to enter details of the correspondance, transcribe the text as best you
+                    can (bearing in mind the variable hand writing)
+                    and if at all possible translate the contents.
+                </p>
+
+            </div>
+
+            <!-- Step 2 of the tutorial -->
+            <div id="1" class="modal-body" style="display:none">
+                <p>
+                    The fields we would like you to transcribe are:
+                </p>
+                <ul>
+                    <li>Date of card (if present)</li>
+                    <li>The message</li>
+                    <li> A translation if available</li>
+                    <li>The possible/probable/definite language</li>
+                    <li>The address to which it was sent</li>
+                    <li>Any comments you might have</li>
+                </ul>
+
+                <p>Dont worry if you cannot get everything. Each card will be worked on by several people.</p>
+            </div>
+                    <!-- End of stepped modal body -->
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <a id="prevBtn" href="#" onclick="showStep('prev')" class="btn btn-default">Previous</a>
+                        <a id="nextBtn" href="#" onclick="showStep('next')" class="btn btn-success">Next</a>
+                        <a id="startContrib" data-dismiss="modal" href="../middleEastPostcards/newtask" class="btn btn-primary"
+                           style="display:none"/><i class="glyphicon glyphicon-thumbs-up"></i> Let's start!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var step = -1;
+    function showStep(action) {
+        $("#" + step).hide();
+        if (action == 'next') {
+            step = step + 1;
+        }
+        if (action == 'prev') {
+            step = step - 1;
+        }
+        if (step == 0) {
+            $("#prevBtn").hide();
+        }
+        else {
+            $("#prevBtn").show();
+        }
+        if (step == 1 ) {
+            $("#nextBtn").hide();
+            $("#startContrib").show();
+        }
+        $("#" + step).show();
+    }
+    showStep('next');
+    $("#modal").modal('show');
+</script>
+
