@@ -67,6 +67,14 @@ task.
                 <a class="btn btn-info btn-xs" id="imgLink" target="_blank" data-toggle="tooltip" data-placement="top"
                    title="Opens in a new window" href="http://community.micropasts.org/"><i
                         class="glyphicon glyphicon-book"></i> Community Help</a>
+                <!-- Overlay image -->
+                <a id="raw" href="" class="btn btn-xs btn-info fancybox"><i class="glyphicon glyphicon-picture"></i>
+                    Overlay</a>
+                <!-- Link to flickr -->
+                <a id="flickr" rel="tooltip" target="_blank" data-toggle="tooltip" data-placement="top"
+                   title="Opens in a new window" href="" class="btn btn-xs btn-info"><i class="icon icon-flickr"></i>
+                    View on Flickr</a>
+                <a id="toggle" class="btn btn-xs btn-info">Rotate image</a>
             </div>
         </div>
     </div>
@@ -242,9 +250,8 @@ task.
                     Transcription of these postcards is relatively easy!
                 </p>
                 <p>
-                    All we want you to do, is to enter details of the correspondance, transcribe the text as best you
-                    can (bearing in mind the variable hand writing)
-                    and if at all possible translate the contents.
+                    All we want you to do, is to enter details of the correspondence, transcribe the text as best you
+                    can (bearing in mind the variable hand writing) and if at all possible translate the contents.
                 </p>
 
             </div>
@@ -263,7 +270,9 @@ task.
                     <li>Any comments you might have</li>
                 </ul>
 
-                <p>Dont worry if you cannot get everything. Each card will be worked on by several people.</p>
+                <p>
+                    Do not worry if you cannot transcribe everything. Each card will be worked on by several people.
+                </p>
             </div>
 
             <!-- End of stepped modal body -->
@@ -287,6 +296,7 @@ task.
 		test : window.JSON,
 		nope : '/static/js/vendor/json2.min.js'
 	});
+
 
 
 
@@ -326,6 +336,7 @@ task.
 	}
 	showStep('next');
 	$("#modal").modal('show');
+
 
 
 
@@ -369,6 +380,12 @@ task.
 			$("#question").html(task.info.question);
 			$('#task-id').html(task.id);
 			$("#photo").attr('src', task.info.url_b);
+			$("a#raw").attr("href", task.info.url_b);
+			$(".fancybox").fancybox();
+			$( "#toggle" ).click( function() {
+                $("#photo").toggleClass('flip');
+            });
+            $("a#flickr").attr("href", task.info.link + '/sizes/k/');
 			var data = [[]];
 			$('.btn-answer').off('click').on('click', function(evt) {
 				evt.preventDefault();
@@ -396,8 +413,6 @@ task.
 	});
 	pybossa.run('middleEastPostcards');
 
-
-
 </script>
 
 <style type="text/css">
@@ -409,7 +424,6 @@ task.
     margin-bottom: 0px
     }
 
-
-
+   .flip { transform: rotate(-90deg);}
 
 </style>
